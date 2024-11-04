@@ -40,14 +40,14 @@ class Record:
         for phones in self.phones:
             if phones.value == old_phone:
                 phones.value = new_phone
-                return Phone(new_phone)
+                return
             else:
                 raise ValueError(f"Телефон {old_phone} не знайдено.")           
         
     def find_phone(self, phone):
         for phones in self.phones:
             if phones.value == phone:
-                return Phone(phone)
+                return phones
         return None       
 
     def __str__(self):
