@@ -8,9 +8,10 @@ class Field:
         return str(self.value)
 
 class Name(Field):
-    def save_name(self,name):
-        self.name = name
-        return self.name    
+    def __init__(self, value):
+        if not value:
+            raise ValueError("Ім'я не може бути порожнім.")
+        super().__init__(value) 
 
 class Phone(Field):
     def __init__(self, value):
@@ -30,31 +31,23 @@ class Record:
     def add_phone(self, phone):
         phone_1 = Phone(phone)
         self.phones.append(phone_1)
-        print(f"Phone {phone} added to contact {self.name}")
 
     def remove_phone(self, phone):
         if phone in [p.value for p in self.phones]:
             self.phones = [p for p in self.phones if p.value != phone]
-            print(f"Phone {phone} removed from contact {self.name}")
-        else:
-            print(f"Phone {phone} not found for contact {self.name}")      
 
     def edit_phone(self, old_phone, new_phone):
         for phones in self.phones:
             if phones.value == old_phone:
-                if not Phone(new_phone)._is_valid(new_phone):
-                    raise ValueError("Новый номер телефона должен содержать ровно 10 цифр.")
                 phones.value = new_phone
-                print(f"Phone {old_phone} changed for contact {self.name} to phone {new_phone}")
-                return new_phone
+                return Phone(new_phone)
             else:
-                raise ValueError(f"Телефон {old_phone} не найден в записи.")           
+                raise ValueError(f"Телефон {old_phone} не знайдено.")           
         
-           
     def find_phone(self, phone):
         for phones in self.phones:
             if phones.value == phone:
-                return phone
+                return Phone(phone)
         return None       
 
     def __str__(self):
@@ -96,7 +89,6 @@ jane_record.add_phone("9876543210")
 book.add_record(jane_record)
 
 # # Виведення всіх записів у книзі
-     
 print(book)
 
 # # Знаходження та редагування телефону для John
