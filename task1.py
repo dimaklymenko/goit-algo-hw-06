@@ -40,6 +40,7 @@ class Record:
         for phones in self.phones:
             if phones.value == old_phone:
                 phones.value = new_phone
+                Phone(new_phone)
                 return
             else:
                 raise ValueError(f"Телефон {old_phone} не знайдено.")           
