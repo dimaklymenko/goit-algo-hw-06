@@ -35,15 +35,13 @@ class Record:
     def remove_phone(self, phone):
         if phone in [p.value for p in self.phones]:
             self.phones = [p for p in self.phones if p.value != phone]
-
+    
     def edit_phone(self, old_phone, new_phone):
-        for phones in self.phones:
-            if phones.value == old_phone:
-                phones.value = new_phone
-                Phone(new_phone)
-                return phones
-            else:
-                raise ValueError(f"Телефон {old_phone} не знайдено.")           
+        if self.find_phone(old_phone):
+            self.add_phone(new_phone)
+            self.remove_phone(old_phone)
+        else:
+            raise ValueError              
         
     def find_phone(self, phone):
         for phones in self.phones:
